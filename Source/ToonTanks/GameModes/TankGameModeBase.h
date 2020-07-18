@@ -9,6 +9,11 @@
 /**
  * 
  */
+
+class APawnTurrent;
+class APawnTank;
+class APlayerControllerBase;
+
 UCLASS()
 class TOONTANKS_API ATankGameModeBase : public AGameModeBase
 {
@@ -17,20 +22,30 @@ class TOONTANKS_API ATankGameModeBase : public AGameModeBase
 
 protected:
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Loop")
+	int32 StartDelay = 3;
+
 	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintImplementableEvent)
+		void GameStart();
+	UFUNCTION(BlueprintImplementableEvent)
+		void GameOver(bool PlayerWon);
+
 
 public:
 
 	void ActorDied(AActor* DeadActor);
-	UFUNCTION(BlueprintImplementableEvent)
-	void GameStart();
-	UFUNCTION(BlueprintImplementableEvent)
-	void GameOver();
 
 private:
+	APawnTank* PlayerTank;
+	int32 TargetTurrents = 0;
+	APlayerControllerBase* PlayerControllerRef;
 
+	int32 GetTargetTurrentCount();
 	void HandleGameStart();
 	void HandleGameOver(bool PlayerWon);
+
+	
 
 
 };

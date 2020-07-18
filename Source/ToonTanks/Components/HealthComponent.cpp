@@ -12,7 +12,6 @@ UHealthComponent::UHealthComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	Health = DefaultHealth;
 }
 
 
@@ -20,6 +19,8 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Health = DefaultHealth;
 
 	GameModeRef = Cast<ATankGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
@@ -43,6 +44,7 @@ void UHealthComponent::TakeDamage(AActor* DamageActor, float Damage, const class
 	if (Damage == 0 || Health == 0) return;
 
 	Health = FMath::Clamp(Health - Damage, 0.0f, DefaultHealth);
+	UE_LOG(LogTemp, Warning, TEXT("%f"), Health);
 
 	if (Health <= 0) {
 		if (GameModeRef) {

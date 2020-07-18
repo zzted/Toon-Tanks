@@ -26,7 +26,7 @@ void APawnTurrent::Tick(float DeltaTime)
 
 void APawnTurrent::CheckFireCondition() {
 	//If Player is valid
-	if (!PlayerPawn) return;
+	if (!PlayerPawn || !PlayerPawn->GetIsPlayerAlive()) return;
 	//If Player is in range
 	if (ReturnDistanceToPlayer() <= FireRange) {
 		Fire();
@@ -41,4 +41,5 @@ float APawnTurrent::ReturnDistanceToPlayer() {
 
 void APawnTurrent::HandleDestruction() {
 	Super::HandleDestruction();
+	Destroy();
 }
